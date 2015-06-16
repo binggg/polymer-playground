@@ -65,23 +65,23 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         notify:true
       }
     },
-    removeItemAction:function(e){
+    removeItemAction:function(){
       this.fire('todo-item-remove',this.item);
     },
-    resolveItemAction:function(e){
+    resolveItemAction:function(){
       this.fire('todo-item-resolve',this.item);
     },
-    editItemAction:function(e){
+    editItemAction:function(){
       this.editing = true;
       this.async(function(){
         this.$.edit.querySelector('input').focus();
       });
     },
-    commitEditAction:function(e){
+    commitEditAction:function(){
       this.fire('todo-item-edit',this.item);
       this.editing=false;
     },
-    cancelEditAction:function(e){
+    cancelEditAction:function(){
       this.editing=false;
     },
     isCompleted:function(boolean) {
