@@ -56,6 +56,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
 </head>
 
+
 <body unresolved class="fullbleed layout vertical">
   <template is="dom-bind" id="app">
 
@@ -85,12 +86,13 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
               </a>
           </paper-menu>
       </div>
-      <paper-header-panel main mode="waterfall-tall">
+      <paper-header-panel main mode="waterfall-tall1">
         <!-- Main Toolbar -->
         <paper-toolbar id="mainToolbar">
           <button tabindex="1" id="paperToggle" paper-drawer-toggle>
             <iron-icon icon="menu" paper-drawer-toggle></iron-icon>
           </button>
+          <div class="appname">Polymer Playground</div>
           <span class="flex"></span>
 
           <!-- Toolbar icons -->
@@ -99,7 +101,6 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
           <div class="middle"></div>
 
           <!-- Application name -->
-          <div class="appname bottom paper-font-display2">Polymer Playground</div>
 
         </paper-toolbar>
 
@@ -108,6 +109,9 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
 
             <section data-route="home">
+              <paper-material>
+                <css3-transform></css3-transform>
+              </paper-material>
               <paper-material>
                 <todo-element></todo-element>
               </paper-material>
