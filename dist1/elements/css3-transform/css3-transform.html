@@ -1,0 +1,140 @@
+<!--
+@license
+Copyright (c) 2015 The Polymer Project Authors. All rights reserved.
+This code may only be used under the BSD style license found at http://polymer.github.io/LICENSE.txt
+The complete set of authors may be found at http://polymer.github.io/AUTHORS.txt
+The complete set of contributors may be found at http://polymer.github.io/CONTRIBUTORS.txt
+Code distributed by Google as part of the polymer project is also
+subject to an additional IP rights grant found at http://polymer.github.io/PATENTS.txt
+-->
+
+<link rel="import" href="..\..\bower_components/polymer/polymer.html">
+
+<dom-module id="css3-transform">
+  <style>
+    :host {
+      display: block;
+    }
+
+    [drawer] {
+      background: var(--paper-grey-100);
+    }
+     #card {
+       min-height: 210px;
+       width: 280px;
+       background: var(--paper-amber-500);
+       margin:auto;
+     }
+
+    #main {
+      min-height: 500px;
+    }
+
+    #container {
+      min-height: 436px;
+    }
+
+
+    #paperToggle {
+      width: 45px;
+      height: 45px;
+      border: none;
+      color: var(--drawer-menu-color);
+      background-color: transparent;
+      margin-right: 16px;
+      padding: 8px;
+    }
+
+    #show {
+      height: 436px;
+    }
+
+    #code {
+      background: var(--paper-grey-700);
+      color:var(--paper-amber-100);
+      padding: 16px;
+    }
+
+    paper-tabs, paper-tab {
+      background: var(--paper-grey-500);
+      color:#fff;
+    }
+  </style>
+  <template>
+    <div id="main" class="fullbleed layout vertical">
+      <paper-drawer-panel id="paperDrawerPanel1">
+        <div drawer>
+          <paper-tabs id="scrollableTabs" selected="{{selected}}" scrollable>
+            <template is="dom-repeat" items="{{transformset}}">
+              <paper-tab>
+                <span>{{item}}</span>
+              </paper-tab>
+            </template>
+          </paper-tabs>
+          <iron-pages selected="{{selected}}">
+            <div>1</div>
+            <div>2</div>
+            <div>3</div>
+            <div><span>{{rotate}}</span><input type="range" is="iron-input" value="{{rotate}}"  bind-value="{{rotate}}" name="points" min="0" max="360" /></div>
+          </iron-pages>
+        </div>
+        <paper-header-panel main>
+          <paper-toolbar>
+            <button tabindex="1" id="paperToggle" paper-drawer-toggle>
+              <iron-icon icon="menu" paper-drawer-toggle></iron-icon>
+            </button>
+            <div class="appname">CSS3 Transform</div>
+            <span class="flex"></span>
+
+            <!-- Application name -->
+          </paper-toolbar>
+          <div class="layout horizontal" id="container">
+            <div class="flex layout horizontal center" id="show">
+              <paper-material id="card">
+              </paper-material>
+            </div>
+            <div class="flex" id="code">
+                11
+            </div>
+          </div>
+        </paper-header-panel>
+      </paper-drawer-panel>
+    </div>
+  </template>
+</dom-module>
+<script>
+(function() {
+  Polymer({
+    is: 'css3-transform',
+
+    properties: {
+      transform: {
+        type: String,
+        value: 'scaleX',
+        notify: true
+      },
+      transformset: {
+        type:Array,
+        value:['matrix','matrix3d','perspective','rotate','rotate3d','rotateX','rotate3d','rotateX','rotateY',
+          'rotateZ','scale','scale3d','scaleX','skew','skewX','skewY','translate','translate3d','translateX',
+          'translateY','translateZ'],
+        notify:true
+      },
+      rotate: {
+        type:Number,
+        value:1,
+        notify:true,
+        observer:'rotateChanged'
+      }
+    },
+    rotateChanged:function(){
+      console.log(1);
+      console.log(this.$.card);
+      this.async(function(){
+        this.$.card.style.transform = 'rotate(' + this.rotate+'deg)';
+        this.$.code.innerHTML = this.$.card.style.transform;
+      });
+    }
+  });
+})();
+</script>

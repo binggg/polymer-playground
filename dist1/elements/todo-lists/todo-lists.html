@@ -1,0 +1,96 @@
+<!--
+@license
+Copyright (c) 2015 The Polymer Project Authors. All rights reserved.
+This code may only be used under the BSD style license found at http://polymer.github.io/LICENSE.txt
+The complete set of authors may be found at http://polymer.github.io/AUTHORS.txt
+The complete set of contributors may be found at http://polymer.github.io/CONTRIBUTORS.txt
+Code distributed by Google as part of the polymer project is also
+subject to an additional IP rights grant found at http://polymer.github.io/PATENTS.txt
+-->
+<dom-module id="todo-lists">
+  <style>
+    :host {
+      display: block;
+    }
+    :host .todo-content{
+      font-family: 'Roboto', 'Helvetica Neue', Helvetica, Arial, 'Microsoft Yahei', sans-serif;
+      white-space: nowrap;
+      text-overflow: ellipsis;
+      overflow: hidden;
+    }
+    :host > .completed .todo-content{
+      text-decoration: line-through;
+      color: var(--paper-grey-500);
+    }
+
+    paper-checkbox,paper-icon-button {
+      margin-right:0!important;
+    }
+    :host > .completed .clear{
+      margin-right:-12px!important;
+      color: var(--paper-grey-500);
+    }
+
+  </style>
+  <template>
+    <div class$="{{isCompleted(item.completed)}}">
+      <paper-item>
+        <div class="flex todo-content" hidden="{{editing}}">{{item.content}}</div>
+        <todo-input id="edit" class="flex" value="{{item.content}}" hidden="{{!editing}}"
+                    on-todo-input-commit="commitEditAction"
+                    on-todo-input-cancel="cancelEditAction"></todo-input>
+        <paper-icon-button class="clear" icon="editor:mode-edit" title="delete" on-click="editItemAction" hidden="{{item.completed}}"></paper-icon-button>
+        <template id="resolve" is="dom-if" if="{{!item.completed}}">
+          <paper-checkbox checked={{item.completed}} on-change="resolveItemAction"></paper-checkbox>
+        </template>
+        <template id="remove" is="dom-if" if="{{item.completed}}">
+          <paper-icon-button class="clear" icon="delete" title="delete" on-click="removeItemAction"></paper-icon-button>
+        </template>
+
+      </paper-item>
+    </div>
+  </template>
+</dom-module>
+<script>
+(function() {
+  Polymer({
+    is: 'todo-lists',
+    properties: {
+      editing:{
+        type:Boolean,
+        value:false
+      },
+      item: {
+        type: Array,
+        notify:true
+      }
+    },
+    removeItemAction:function(){
+      this.fire('todo-item-remove',this.item);
+    },
+    resolveItemAction:function(){
+      this.fire('todo-item-resolve',this.item);
+    },
+    editItemAction:function(){
+      this.editing = true;
+      this.async(function(){
+        this.$.edit.querySelector('input').focus();
+      });
+    },
+    commitEditAction:function(){
+      this.fire('todo-item-edit',this.item);
+      this.editing=false;
+    },
+    cancelEditAction:function(){
+      this.editing=false;
+    },
+    isCompleted:function(boolean) {
+      if (boolean) {
+        return 'completed';
+      } else {
+        return '';
+      }
+    }
+  });
+})();
+</script>

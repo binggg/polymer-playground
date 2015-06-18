@@ -1,0 +1,79 @@
+<!--
+@license
+Copyright (c) 2015 The Polymer Project Authors. All rights reserved.
+This code may only be used under the BSD style license found at http://polymer.github.io/LICENSE.txt
+The complete set of authors may be found at http://polymer.github.io/AUTHORS.txt
+The complete set of contributors may be found at http://polymer.github.io/CONTRIBUTORS.txt
+Code distributed by Google as part of the polymer project is also
+subject to an additional IP rights grant found at http://polymer.github.io/PATENTS.txt
+-->
+
+<link rel="import" href="..\..\bower_components/polymer/polymer.html">
+
+<dom-module id="my-range">
+  <style>
+    :host {
+      display: block;
+    }
+
+    paper-slider {
+      --paper-slider-knob-color: var(--paper-amber-500);
+      --paper-slider-active-color: var(--paper-amber-500);
+      --paper-slider-pin-color: var(--paper-amber-700);
+      --paper-slider-secondary-color: var(--paper-amber-200);
+    }
+
+  </style>
+  <template>
+    <div class="center horizontal layout">
+      <b>{{label}}</b>
+      <paper-slider id="slider" on-immediate-value-change="immediateValueChanged"
+                    pin  bind-value="{{value}}"
+                    value="{{value}}" min="{{min}}" max="{{max}}" step="{{step}}"></paper-slider>
+      <b>{{value}}</b><span>{{measuring}}</span>
+    </div>
+  </template>
+</dom-module>
+<script>
+(function() {
+  Polymer({
+    is: 'my-range',
+
+    properties: {
+      label:{
+        type:String,
+        notify:true
+      },
+      min: {
+        type: Number,
+        value: -10,
+        notify: true
+      },
+      max: {
+        type: Number,
+        value: 10,
+        notify: true
+      },
+      value: {
+        type:Number,
+        notify: true
+      },
+      measuring:{
+        type:String,
+        value:'',
+        notify:true
+      },
+      step: {
+        type:Number,
+        notify:true,
+        value:1
+      }
+    },
+    immediateValueChanged:function(){
+      var sliderEle = this.$.slider;
+      sliderEle.value = sliderEle.immediateValue;
+
+    }
+  });
+})();
+</script>

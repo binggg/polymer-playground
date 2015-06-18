@@ -1,0 +1,66 @@
+<!--
+@license
+Copyright (c) 2015 The Polymer Project Authors. All rights reserved.
+This code may only be used under the BSD style license found at http://polymer.github.io/LICENSE.txt
+The complete set of authors may be found at http://polymer.github.io/AUTHORS.txt
+The complete set of contributors may be found at http://polymer.github.io/CONTRIBUTORS.txt
+Code distributed by Google as part of the polymer project is also
+subject to an additional IP rights grant found at http://polymer.github.io/PATENTS.txt
+-->
+<dom-module id="todo-input">
+  <style>
+    :host /deep/ input {
+      font-family: 'Roboto', 'Helvetica Neue', Helvetica, Arial, 'Microsoft Yahei', sans-serif!important;
+    }
+
+    :host /deep/ label.paper-input {
+      white-space: nowrap;
+      text-overflow: ellipsis;
+      overflow: hidden;
+    }
+  </style>
+  <template>
+    <paper-input id="paperinput"  no-label-float maxlength="40" autofocus=true
+                 on-keyup="handleKeyUp"
+                 on-keydown="handleKeyDown"
+
+                 label="What's your todo next? Press ENTER to commit, press ESC to cancel~" value="{{value}}"></paper-input>
+  </template>
+</dom-module>
+
+<script>
+(function() {
+  var ENTER_KEY = 13,
+      ESC_KEY = 27;
+  Polymer({
+    is: 'todo-input',
+    ready:function(){
+      // on-blur can't bind event to this input
+      this.async(function(){
+        var inputEle = this.querySelector('paper-input-container');
+        inputEle.addEventListener('blur',this.handleBlur,true);
+      });
+    },
+    properties: {
+      value: {
+        type: String,
+        value: '',
+        notify: true
+      }
+    },
+    handleKeyUp:function(e){
+      if (e.which === ENTER_KEY) {
+        this.fire('todo-input-commit');
+      }
+    },
+    handleKeyDown:function(e){
+      if (e.which === ESC_KEY) {
+        this.fire('todo-input-cancel');
+      }
+    },
+    handleBlur:function(){
+      this.fire('todo-input-commit');
+    }
+  });
+})();
+</script>

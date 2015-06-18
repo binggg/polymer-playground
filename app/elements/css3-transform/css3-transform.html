@@ -14,28 +14,57 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
   <style>
     :host {
       display: block;
+      --matrix;
+      --matrix3d;
+      --perspective;
+      --rotate;
+      --rotate3d;
+      --rotateX;
+      --rotateY;
+      --rotateZ;
+      --scale;
+      --scale3d;
+      --scaleY;
+      --scaleZ;
+      --scaleX;
+      --skew;
+      --skewX;
+      --skewY;
+      --translate;
+      --translate3d;
+      --translateX;
+      --translateY;
+      --translateZ;
+    }
+    .content {
+      padding:16px;
+      overflow: auto;
+      background: var(--paper-grey-700);
+      color:var(--paper-grey-500);
+      width: 100%;
     }
 
-    [drawer] {
-      background: var(--paper-grey-700);
-    }
      #card {
        min-height: 210px;
        width: 280px;
        background: var(--paper-amber-500);
        margin:auto;
+       transform: var(--matrix) var(--matrix3d) var(--perspective) var(--rotate) var(--rotate3d) var(--rotateX)
+        var(--rotateY) var(--rotateZ) var(--scale) var(--scale3d) var(--scaleX)
+       var(--scaleY) var(--scaleZ) var(--skew) var(--skewX) var(--skewY) var(--translate) var(--translate3d) var(--translateX)
+       var(--translateY) var(--translateZ);
      }
 
 
      paper-toolbar {
-         background: var(--paper-grey-600);
+         background: var(--paper-grey-700);
      }
     #main {
-      min-height: 500px;
+      height: 800px;
     }
 
     #container {
-      min-height: 436px;
+
     }
 
 
@@ -50,8 +79,8 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
     }
 
     #show {
-      height: 436px;
-      overflow: hidden;
+      height: 736px;
+      /*overflow: hidden;*/
       background: var(--paper-grey-900);
     }
 
@@ -62,6 +91,9 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       padding: 16px;
     }
 
+    paper-tabs {
+      width: 100%;
+    }
     paper-tabs, paper-tab {
       background: var(--paper-grey-600);
       color:#fff;
@@ -69,43 +101,151 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
   </style>
   <template>
     <div id="main" class="fullbleed layout vertical">
-      <paper-drawer-panel id="paperDrawerPanel1">
-        <div drawer>
-          <paper-tabs id="scrollableTabs" selected="{{selected}}" scrollable>
-            <template is="dom-repeat" items="{{transformset}}">
-              <paper-tab>
-                <span>{{item}}</span>
-              </paper-tab>
-            </template>
-          </paper-tabs>
-          <iron-pages selected="{{selected}}">
-            <div>1</div>
-            <div>2</div>
-            <div>3</div>
-            <div><span>{{rotate}}</span><input type="range" is="iron-input" value="{{rotate}}"  bind-value="{{rotate}}" name="points" min="0" max="360" /></div>
-          </iron-pages>
-        </div>
-        <paper-header-panel main>
+        <paper-header-panel>
           <paper-toolbar>
-            <button tabindex="1" id="paperToggle" paper-drawer-toggle>
-              <iron-icon icon="menu" paper-drawer-toggle></iron-icon>
-            </button>
             <div class="appname">CSS3 Transform</div>
             <span class="flex"></span>
-
+            <paper-tabs id="scrollableTabs" selected="{{selected}}" scrollable>
+              <template is="dom-repeat" items="{{transformset}}">
+                <paper-tab>
+                  <span>{{item}}</span>
+                </paper-tab>
+              </template>
+            </paper-tabs>
             <!-- Application name -->
           </paper-toolbar>
           <div class="layout horizontal" id="container">
-            <div class="flex layout horizontal center" id="show">
-              <paper-material id="card">
-              </paper-material>
+            <div class="flex-1 layout horizontal">
+              <div class="content">
+
+                <iron-pages selected="{{selected}}">
+                  <div>
+                    <span>变形参数</span>
+                    <my-range value="{{transform.matrix.0}}" label="m" min="-2" max="2" step="0.01"></my-range>
+                    <my-range value="{{transform.matrix.1}}" label="m" min="-2" max="2" step="0.01"></my-range>
+                    <my-range value="{{transform.matrix.2}}" label="m" min="-2" max="2" step="0.01"></my-range>
+                    <my-range value="{{transform.matrix.3}}" label="m" min="-2" max="2" step="0.01"></my-range>
+                    <my-range value="{{transform.matrix.4}}" label="m" min="-2" max="2" step="0.01"></my-range>
+                    <my-range value="{{transform.matrix.5}}" label="m" min="-2" max="2" step="0.01"></my-range>
+                  </div>
+                  <div>
+                    <span>变形参数</span>
+                    <my-range value="{{transform.matrix3d.0}}" label="m" min="-2" max="2" step="0.01"></my-range>
+                    <my-range value="{{transform.matrix3d.1}}" label="m" min="-2" max="2" step="0.01"></my-range>
+                    <my-range value="{{transform.matrix3d.2}}" label="m" min="-2" max="2" step="0.01"></my-range>
+                    <my-range value="{{transform.matrix3d.3}}" label="m" min="-2" max="2" step="0.01"></my-range>
+                    <my-range value="{{transform.matrix3d.4}}" label="m" min="-2" max="2" step="0.01"></my-range>
+                    <my-range value="{{transform.matrix3d.5}}" label="m" min="-2" max="2" step="0.01"></my-range>
+                    <my-range value="{{transform.matrix3d.6}}" label="m" min="-2" max="2" step="0.01"></my-range>
+                    <my-range value="{{transform.matrix3d.7}}" label="m" min="-2" max="2" step="0.01"></my-range>
+                    <my-range value="{{transform.matrix3d.8}}" label="m" min="-2" max="2" step="0.01"></my-range>
+                    <my-range value="{{transform.matrix3d.9}}" label="m" min="-2" max="2" step="0.01"></my-range>
+                    <my-range value="{{transform.matrix3d.10}}" label="m" min="-2" max="2" step="0.01"></my-range>
+                    <my-range value="{{transform.matrix3d.11}}" label="m" min="-2" max="2" step="0.01"></my-range>
+                    <my-range value="{{transform.matrix3d.12}}" label="m" min="-2" max="2" step="0.01"></my-range>
+                    <my-range value="{{transform.matrix3d.13}}" label="m" min="-2" max="2" step="0.01"></my-range>
+                    <my-range value="{{transform.matrix3d.14}}" label="m" min="-2" max="2" step="0.01"></my-range>
+                    <my-range value="{{transform.matrix3d.15}}" label="m" min="-2" max="2" step="0.01"></my-range>
+                  </div>
+                  <div>
+                    <span>透视</span>
+                    <my-range value="{{transform.perspective.0}}" label="m" min="0" max="10" step="1"></my-range>
+                  </div>
+                  <div>
+                    <span>旋转参数</span>
+                    <my-range value="{{transform.rotate.0}}" label="angle" min="0" max="360" step="1"></my-range>
+                  </div>
+                  <div>
+                    <span>旋转参数</span>
+                    <my-range value="{{transform.rotate3d.0}}" label="x" step="1"></my-range>
+                    <my-range value="{{transform.rotate3d.1}}" label="y" step="1"></my-range>
+                    <my-range value="{{transform.rotate3d.2}}" label="z" step="1"></my-range>
+                    <my-range value="{{transform.rotate3d.3}}" label="angel" min="0" max="360" step="1"></my-range>
+                  </div>
+                  <div>
+                    <span>旋转参数</span>
+                    <my-range value="{{transform.rotateX.0}}" label="angle" min="0" max="360" step="1"></my-range>
+                  </div>
+                  <div>
+                    <span>旋转参数</span>
+                    <my-range value="{{transform.rotateY.0}}" label="angle" min="0" max="360" step="1"></my-range>
+                  </div>
+                  <div>
+                    <span>旋转参数</span>
+                    <my-range value="{{transform.rotateZ.0}}" label="angle" min="0" max="360" step="1"></my-range>
+                  </div>
+                  <div>
+                    <span>缩放参数</span>
+                    <my-range value="{{transform.scale.0}}" label="x"></my-range>
+                    <my-range value="{{transform.scale.1}}" label="y"></my-range>
+                  </div>
+                  <div>
+                    <span>缩放参数</span>
+                    <my-range value="{{transform.scale3d.0}}" label="x"></my-range>
+                    <my-range value="{{transform.scale3d.1}}" label="y"></my-range>
+                    <my-range value="{{transform.scale3d.2}}" label="z"></my-range>
+                  </div>
+                  <div>
+                    <span>缩放参数</span>
+                    <my-range value="{{transform.scaleX.0}}" label="x"></my-range>
+                  </div>
+                  <div>
+                    <span>缩放参数</span>
+                    <my-range value="{{transform.scaleY.0}}" label="y"></my-range>
+                  </div>
+                  <div>
+                    <span>缩放参数</span>
+                    <my-range value="{{transform.scaleZ.0}}" label="z"></my-range>
+                  </div>
+                  <div>
+                    <span>参数</span>
+                    <my-range value="{{transform.skew.0}}" label="angle" min="0" max="360"></my-range>
+                    <my-range value="{{transform.skew.1}}" label="angle" min="0" max="360"></my-range>
+                  </div>
+                  <div>
+                    <span>参数</span>
+                    <my-range value="{{transform.skewX.0}}" label="angle" min="0" max="360"></my-range>
+                  </div>
+                  <div>
+                    <span>参数</span>
+                    <my-range value="{{transform.skewY.0}}" label="angle" min="0" max="360"></my-range>
+                  </div>
+                  <div>
+                    <span>参数</span>
+                    <my-range value="{{transform.translate.0}}" label="x" min="-50" max="50" step="1"></my-range>
+                    <my-range value="{{transform.translate.1}}" label="y" min="-50" max="50" step="1"></my-range>
+                  </div>
+                  <div>
+                    <span>参数</span>
+                    <my-range value="{{transform.translate3d.0}}" label="x" min="-50" max="50" step="1"></my-range>
+                    <my-range value="{{transform.translate3d.1}}" label="y" min="-50" max="50" step="1"></my-range>
+                    <my-range value="{{transform.translate3d.2}}" label="z" min="-50" max="50" step="1"></my-range>
+                  </div>
+                  <div>
+                    <span>参数</span>
+                    <my-range value="{{transform.translateX.0}}" label="z" min="-50" max="50" step="1"></my-range>
+                  </div>
+                  <div>
+                    <span>参数</span>
+                    <my-range value="{{transform.translateY.0}}" label="y" min="-50" max="50" step="1"></my-range>
+                  </div>
+                  <div>
+                    <span>参数</span>
+                    <my-range value="{{transform.translateZ.0}}" label="z" min="-50" max="50" step="1"></my-range>
+                  </div>
+                </iron-pages>
+                <div id="code">
+
+                </div>
+              </div>
             </div>
-            <div class="flex" id="code">
-                11
+            <div class="flex-4 layout horizontal center" id="show">
+              <paper-material id="card" style="text-align:center">
+                <h1 class="paper-font-display2" >CSS3 Transform</h1>
+              </paper-material>
             </div>
           </div>
         </paper-header-panel>
-      </paper-drawer-panel>
     </div>
   </template>
 </dom-module>
@@ -115,31 +255,125 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
     is: 'css3-transform',
 
     properties: {
+      selected: {
+        type:Number,
+        value:0,
+        notify:true
+      },
       transform: {
-        type: String,
-        value: 'scaleX',
+        type: Object,
+        value: {
+          'matrix':[1,0,0,1,0,0], // n
+          'matrix3d':[1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1], // n
+          'perspective':[0], // n
+          'rotate':[0], // angle
+          'rotate3d':[1,1,1,0], // x,y,z,angle
+          'rotateX':[0], // angle
+          'rotateY':[0], // angle
+          'rotateZ':[0], // angle
+          'scale':[1,1], // x,y
+          'scale3d':[1,1,1], // x,y,z
+          'scaleX':[1], // x
+          'scaleY':[1], // y
+          'scaleZ':[1], // z
+          'skew':[0,0], // x-angle,y-angle
+          'skewX':[0], // angle
+          'skewY':[0], // angle
+          'translate':[0,0], // x,y
+          'translate3d':[0,0,0], // x,y,z
+          'translateX':[0], // x
+          'translateY':[0], // y
+          'translateZ':[0] // z
+        },
+        notify: true
+      },
+      unit: {
+        type: Object,
+        value: {
+          'matrix':null, // n
+          'matrix3d':null, // n
+          'perspective':null, // n
+          'rotate':['deg'], // angle
+          'rotate3d':['','','','deg'], // x,y,z,angle
+          'rotateX':['deg'], // angle
+          'rotateY':['deg'], // angle
+          'rotateZ':['deg'], // angle
+          'scale':null, // x,y
+          'scale3d':null, // x,y,z
+          'scaleX':null, // x
+          'scaleY':null, // y
+          'scaleZ':null, // z
+          'skew':['deg','deg'], // x-angle,y-angle
+          'skewX':['deg'], // angle
+          'skewY':['deg'], // angle
+          'translate':['px','px'], // x,y
+          'translate3d':['px','px','px'], // x,y,z
+          'translateX':['px'], // x
+          'translateY':['px'], // y
+          'translateZ':['px'] // z
+        },
         notify: true
       },
       transformset: {
         type:Array,
-        value:['matrix','matrix3d','perspective','rotate','rotate3d','rotateX','rotate3d','rotateX','rotateY',
-          'rotateZ','scale','scale3d','scaleX','skew','skewX','skewY','translate','translate3d','translateX',
-          'translateY','translateZ'],
+        value:[],
+        //        value:function(){
+        //          var arr = [];
+        //          this.async(function(){
+        //            for (var i in this.transform) {
+        //              arr.push(i);
+        //            }
+        //            return arr;
+        //          })
+        //        },
+        //  dom-repeat can't get this
         notify:true
-      },
-      rotate: {
-        type:Number,
-        value:1,
-        notify:true,
-        observer:'rotateChanged'
       }
     },
-    rotateChanged:function(){
-      console.log(1);
-      console.log(this.$.card);
+    ready:function(){
+      var arr =[];
+      for (var i in this.transform) {
+        arr.push(i);
+      }
+      this.transformset = arr;
+    },
+    observers:[
+      'transformChanged(transform.matrix.*)',
+      'transformChanged(transform.matrix3d.*)',
+      'transformChanged(transform.perspective.*)',
+      'transformChanged(transform.rotate.*)',
+      'transformChanged(transform.rotate3d.*)',
+      'transformChanged(transform.rotateX.*)',
+      'transformChanged(transform.rotateY.*)',
+      'transformChanged(transform.rotateZ.*)',
+      'transformChanged(transform.scale.*)',
+      'transformChanged(transform.scale3d.*)',
+      'transformChanged(transform.scaleX.*)',
+      'transformChanged(transform.scaleY.*)',
+      'transformChanged(transform.scaleZ.*)',
+      'transformChanged(transform.skew.*)',
+      'transformChanged(transform.skewX.*)',
+      'transformChanged(transform.skewY.*)',
+      'transformChanged(transform.translate.*)',
+      'transformChanged(transform.translate3d.*)',
+      'transformChanged(transform.translateX.*)',
+      'transformChanged(transform.translateY.*)',
+      'transformChanged(transform.translateZ.*)'
+    ],
+    transformChanged:function(changed){
       this.async(function(){
-        this.$.card.style.transform = 'rotate(' + this.rotate+'deg)';
+        var name = changed.path.split('.')[1];
+        var paramArr = [];
+        var unitArr = this.unit[name];
+        for (var i in this.transform[name]) {
+          paramArr.push(this.transform[name][i]+(unitArr && unitArr[i]));
+        }
+        this.customStyle['--'+name] = name + '('
+          + paramArr.join() +
+          ')';
+        console.log(this.$.card.style);
         this.$.code.innerHTML = this.$.card.style.transform;
+        (this.domHost || Polymer).updateStyles();
       });
     }
   });
