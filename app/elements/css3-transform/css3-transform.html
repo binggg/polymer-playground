@@ -95,7 +95,6 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       width: 100%;
     }
     paper-tabs, paper-tab {
-      background: var(--paper-grey-600);
       color:#fff;
     }
   </style>
@@ -368,9 +367,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         for (var i in this.transform[name]) {
           paramArr.push(this.transform[name][i]+(unitArr && unitArr[i]));
         }
-        this.customStyle['--'+name] = name + '('
-          + paramArr.join() +
-          ')';
+        this.customStyle['--'+name] = name + '(' + paramArr.join() + ')';
         console.log(this.$.card.style);
         this.$.code.innerHTML = this.$.card.style.transform;
         (this.domHost || Polymer).updateStyles();

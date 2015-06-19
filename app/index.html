@@ -72,18 +72,18 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
           <paper-menu class="list" attr-for-selected="data-route" selected="{{route}}">
               <a data-route="home" href="/">
                 <iron-icon icon="home"></iron-icon>
-                <span>Polymer Todo</span>
+                <span>Home</span>
               </a>
 
-              <a data-route="users" href="/users">
-                <iron-icon icon="info"></iron-icon>
-                <span>Users</span>
-              </a>
+              <!--<a data-route="todo" href="/todo">-->
+                <!--<iron-icon icon="info"></iron-icon>-->
+                <!--<span>Polymer Todo</span>-->
+              <!--</a>-->
 
-              <a data-route="contact" href="/contact">
-                <iron-icon icon="mail"></iron-icon>
-                <span>Contact</span>
-              </a>
+              <!--<a data-route="css3transform" href="/css3transform">-->
+                <!--<iron-icon icon="mail"></iron-icon>-->
+                <!--<span>CSS3 Transform</span>-->
+              <!--</a>-->
           </paper-menu>
       </div>
       <paper-header-panel main mode="waterfall-tall1">
@@ -112,6 +112,16 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
               <paper-material>
                 <css3-transform></css3-transform>
               </paper-material>
+              <paper-material>
+                <todo-element></todo-element>
+              </paper-material>
+            </section>
+            <section data-route="css3transform">
+                <paper-material>
+                    <css3-transform></css3-transform>
+                </paper-material>
+            </section>
+            <section data-route="todo">
               <paper-material>
                 <todo-element></todo-element>
               </paper-material>
