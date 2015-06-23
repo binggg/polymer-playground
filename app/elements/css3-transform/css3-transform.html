@@ -103,7 +103,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
     <div id="main" class="fullbleed layout vertical">
         <paper-header-panel>
           <paper-toolbar>
-            <div class="appname">CSS3 Transform</div>
+            <div>CSS3 Transform</div>
             <span class="flex"></span>
             <paper-tabs id="scrollableTabs" selected="{{selected}}" scrollable>
               <template is="dom-repeat" items="{{transformset}}">
@@ -112,6 +112,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
                 </paper-tab>
               </template>
             </paper-tabs>
+            <paper-icon-button icon="refresh" on-click="refreshAction"></paper-icon-button>
             <!-- Application name -->
           </paper-toolbar>
           <div class="layout horizontal" id="container">
@@ -241,7 +242,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
                 <h1 class="paper-font-display2" >CSS3 Transform</h1>
               </paper-material>
             </div>
-            <div class="flex-2 layout horizontal" id="code">
+            <div class="flex layout horizontal" id="code">
 
             </div>
           </div>
@@ -404,18 +405,21 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       'transformChanged(transform.translateY.*)',
       'transformChanged(transform.translateZ.*)'
     ],
+    refreshAction: function(){
+      for(var i in this.transform) {
+        this.set('transform.'+i,this.transformdefault[i].concat());
+      }
+    },
     transformChanged:function(changed){
       this.async(function(){
         var name = changed.path.split('.')[1];
         var paramArr = [];
         var unitArr = this.unit[name];
-        if (this.transform[name].toString() !== this.transformdefault[name].toString()) {
-          for (var i in this.transform[name]) {
-            paramArr.push(this.transform[name][i]+(unitArr && unitArr[i]));
-          }
-          this.customStyle['--'+name] = name + '(' + paramArr.join() + ')';
-          (this.domHost || Polymer).updateStyles();
+        for (var i in this.transform[name]) {
+          paramArr.push(this.transform[name][i]+(unitArr && unitArr[i]));
         }
+        this.customStyle['--'+name] = name + '(' + paramArr.join() + ')';
+        (this.domHost || Polymer).updateStyles();
         var cssCode = getDefinedStylePropertyByName(this.$.card,false,'transform');
         this.$.code.innerHTML = 'transform:'+ (cssCode || 'none' )+';';
       });
