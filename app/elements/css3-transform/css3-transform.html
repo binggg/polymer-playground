@@ -86,9 +86,10 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
     #code {
       background: var(--paper-grey-700);
-
-      color:var(--paper-amber-100);
       padding: 16px;
+      color:var(--paper-amber-100);
+      font-family: 'Consolas', 'Source Code Pro', 'Monaco', 'Menlo', monospace;
+      font-size: 12px;
     }
 
     paper-tabs {
@@ -233,15 +234,15 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
                     <my-range value="{{transform.translateZ.0}}" label="z" min="-50" max="50" step="1"></my-range>
                   </div>
                 </iron-pages>
-                <div id="code">
-
-                </div>
               </div>
             </div>
             <div class="flex-4 layout horizontal center" id="show">
               <paper-material id="card" style="text-align:center">
                 <h1 class="paper-font-display2" >CSS3 Transform</h1>
               </paper-material>
+            </div>
+            <div class="flex-2 layout horizontal" id="code">
+
             </div>
           </div>
         </paper-header-panel>
@@ -250,6 +251,54 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 </dom-module>
 <script>
 (function() {
+  /**
+   * Returns specified style property information that is defined on specified
+   * node (including inline style) by name.
+   * @param {object} node node to get prototypes for.
+   * @param {boolean} authorOnly Determines whether only author styles need to
+   *     be added.
+   * @param {string} propertyName CSS property name.
+   * @return {object} value of specified style property information. Return
+   *     null if the specified property is not defined on the node.
+   */
+// TODO: replace getDefinedStylePropertyByName with getSpecifiedStyleValue
+// This name is too long and has useless authorOnly parameter.
+  function getDefinedStylePropertyByName(node, authorOnly, propertyName) {
+    // CSSStyleDeclaration.getPropertyValue returns null instead of
+    // empty string if the property has not been set in Webkit. So we
+    // initialize the return value as null here.
+    // http://www.w3.org/TR/DOM-Level-2-Style/css.html#CSS-CSSStyleDeclaration
+    var value = null;
+    if (!node || node.nodeType !== Node.ELEMENT_NODE) {
+      return value;
+    }
+
+    if (node.style) {
+      value = node.style.getPropertyValue(propertyName);
+      // The !important style takes precedence.
+      if (node.style.getPropertyPriority(propertyName)) {
+        return value;
+      }
+    }
+
+    var styleRules = node.ownerDocument.defaultView.getMatchedCSSRules(
+      node, '', authorOnly);
+    if (!styleRules) {
+      return value;
+    }
+
+    for (var i = styleRules.length - 1; i >= 0; --i) {
+      var style = styleRules[i].style;
+      // The !important style may override inline style.
+      if (style.getPropertyPriority(propertyName)) {
+        return style.getPropertyValue(propertyName);
+      }
+      if (!value) {
+        value = style.getPropertyValue(propertyName);
+      }
+    }
+    return value;
+  }
   Polymer({
     is: 'css3-transform',
 
@@ -286,6 +335,10 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         },
         notify: true
       },
+      transformdefault: {
+        type: Object,
+        value: {}
+      },
       unit: {
         type: Object,
         value: {
@@ -316,23 +369,15 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       transformset: {
         type:Array,
         value:[],
-        //        value:function(){
-        //          var arr = [];
-        //          this.async(function(){
-        //            for (var i in this.transform) {
-        //              arr.push(i);
-        //            }
-        //            return arr;
-        //          })
-        //        },
-        //  dom-repeat can't get this
         notify:true
       }
     },
     ready:function(){
       var arr =[];
+
       for (var i in this.transform) {
         arr.push(i);
+        this.transformdefault[i] = this.transform[i].concat(); // because array is reference Type
       }
       this.transformset = arr;
     },
@@ -364,13 +409,15 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         var name = changed.path.split('.')[1];
         var paramArr = [];
         var unitArr = this.unit[name];
-        for (var i in this.transform[name]) {
-          paramArr.push(this.transform[name][i]+(unitArr && unitArr[i]));
+        if (this.transform[name].toString() !== this.transformdefault[name].toString()) {
+          for (var i in this.transform[name]) {
+            paramArr.push(this.transform[name][i]+(unitArr && unitArr[i]));
+          }
+          this.customStyle['--'+name] = name + '(' + paramArr.join() + ')';
+          (this.domHost || Polymer).updateStyles();
         }
-        this.customStyle['--'+name] = name + '(' + paramArr.join() + ')';
-        console.log(this.$.card.style);
-        this.$.code.innerHTML = this.$.card.style.transform;
-        (this.domHost || Polymer).updateStyles();
+        var cssCode = getDefinedStylePropertyByName(this.$.card,false,'transform');
+        this.$.code.innerHTML = 'transform:'+ (cssCode || 'none' )+';';
       });
     }
   });
