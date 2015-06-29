@@ -1,0 +1,122 @@
+<!--
+@license
+Copyright (c) 2015 The Polymer Project Authors. All rights reserved.
+This code may only be used under the BSD style license found at http://polymer.github.io/LICENSE.txt
+The complete set of authors may be found at http://polymer.github.io/AUTHORS.txt
+The complete set of contributors may be found at http://polymer.github.io/CONTRIBUTORS.txt
+Code distributed by Google as part of the polymer project is also
+subject to an additional IP rights grant found at http://polymer.github.io/PATENTS.txt
+-->
+
+<link rel="import" href="..\..\bower_components/polymer/polymer.html">
+
+<dom-module id="image-uploader">
+  <style>
+    :host {
+      display: block;
+    }
+
+    #file {
+      display: none;
+    }
+
+    .avatar {
+      background: #eee;
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      position: relative;
+    }
+
+    .avatar paper-spinner{
+      position: absolute;
+      top: 6px;
+      left: 6px;
+    }
+
+    .avatar img{
+      width: 40px;
+      height: 40px;
+      border-radius: 100%;
+    }
+
+    paper-spinner.white {
+      --paper-spinner-layer-1-color: #fff;
+      --paper-spinner-layer-2-color: #fff;
+      --paper-spinner-layer-3-color: #fff;
+      --paper-spinner-layer-4-color: #fff;
+    }
+  </style>
+  <template>
+    <input type="file" id="file" accept="image/*" on-change="uploadHandler">
+    <paper-icon-item>
+      <div class="avatar blue" item-icon>
+        <template is="dom-if" if="{{data}}">
+          <img src="{{data}}" alt="图片"/>
+        </template>
+        <template is="dom-if" if="{{loading}}">
+          <paper-spinner class="white" active></paper-spinner>
+        </template>
+      </div>
+      <paper-item-body two-line>
+        <template is="dom-if" if="{{name}}">
+          <div>
+            <span>{{name}}</span>
+          </div>
+        </template>
+        <template is="dom-if" if="{{size}}">
+          <div secondary><span>{{size}}</span> Bytes</div>
+        </template>
+      </paper-item-body>
+      <paper-icon-button icon="image:camera-alt" raised on-click="clickHandler">
+      </paper-icon-button>
+    </paper-icon-item>
+
+  </template>
+</dom-module>
+<script>
+(function() {
+  Polymer({
+    is: 'image-uploader',
+    properties: {
+      data: {
+        type: String,
+        notify: true
+      },
+      name: {
+        type: String,
+        value:'',
+        notify:true
+      },
+      size: {
+        type: String,
+        value:'',
+        notify:true
+      },
+      loading : {
+        type: Boolean,
+        value: false,
+        notify: true
+      }
+    },
+    clickHandler:function(e) {
+      this.$.file.click();
+    },
+    uploadHandler : function(){
+      var file = this.$.file.files[0];
+      this.name = file.name;
+      this.size = file.size;
+      if (this.size < 100000000000) {
+        var reader = new FileReader();
+        var that = this;
+        reader.onload = function(e){
+          that.set('data', e.target.result);
+          that.set('loading',false);
+        };
+        this.set('loading',true);
+        reader.readAsDataURL(file);
+      }
+    }
+  });
+})();
+</script>

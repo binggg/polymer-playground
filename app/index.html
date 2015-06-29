@@ -84,6 +84,10 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
                 <iron-icon icon="mail"></iron-icon>
                 <span>CSS3 Transform</span>
               </a>
+              <a data-route="image-uploader" href="/image-uploader">
+                <iron-icon icon="mail"></iron-icon>
+                <span>Image Uploader</span>
+              </a>
           </paper-menu>
       </div>
       <paper-header-panel main mode="waterfall-tall1">
@@ -120,7 +124,12 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
                 <todo-element></todo-element>
               </paper-material>
             </section>
-
+            <section data-route="image-uploader">
+              <paper-material>
+                <image-uploader data="{{src}}">
+                </image-uploader>
+              </paper-material>
+            </section>
             <section data-route="users">
               <paper-material elevation="1">
                 <h2 class="paper-font-display2">Users</h2>
