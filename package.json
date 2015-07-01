@@ -1,7 +1,11 @@
 {
   "name": "polymer-starter-kit",
   "version": "0.0.0",
-  "dependencies": {},
+  "dependencies": {
+    "grunt": "~0.4.5",
+    "grunt-vulcanize": "~0.4.0",
+    "grunt-contrib-watch": "~0.6.1"
+  },
   "scripts": {
     "deps": "npm install -g gulp && npm install -g bower && npm install && bower install"
   },

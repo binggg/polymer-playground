@@ -1,6 +1,7 @@
 {
-  "name": "Polymer Starter Kit",
-  "short_name": "Polymer Starter Kit",
+"manifest_version": 2,
+  "name": "Polymer Playground",
+  "short_name": "Polymer Playground",
   "icons": [{
         "src": "images/touch/icon-128x128.png",
         "sizes": "128x128"
@@ -16,4 +17,19 @@
       }],
   "start_url": "/#!/",
   "display": "standalone"
+  // for chromeapp
+//  "manifest_version": 2,
+//  "version": "1.0.1",
+//  "minimum_chrome_version": "23",
+//  "icons": {
+//    "16": "images/touch/icon-16.png",
+//    "128": "images/touch/icon-128x128.png"
+//  },
+//  "app": {
+//    "background": {
+//      "scripts": [
+//        "main.js"
+//      ]
+//    }
+//  }
 }
