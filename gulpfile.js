@@ -20,7 +20,6 @@ var merge = require('merge-stream');
 var path = require('path');
 var fs = require('fs');
 var glob = require('glob');
-var polybuild = require('polybuild');
 
 var AUTOPREFIXER_BROWSERS = [
   'ie >= 10',
