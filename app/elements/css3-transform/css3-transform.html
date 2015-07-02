@@ -280,9 +280,11 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         return value;
       }
     }
-
-    var styleRules = node.ownerDocument.defaultView.getMatchedCSSRules(
-      node, '', authorOnly);
+    var styleRules;
+    if (node.ownerDocument.defaultView.getMatchedCSSRules) {
+      styleRules = node.ownerDocument.defaultView.getMatchedCSSRules(
+        node, '', authorOnly);
+    }
     if (!styleRules) {
       return value;
     }

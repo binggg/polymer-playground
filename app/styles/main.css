@@ -18,3 +18,22 @@ body {
   bottom: 24px;
   right: 24px;
 }
+
+pre, xmp, plaintext, listing {
+  /* @apply(--paper-font-common-code); */
+  font-family: 'Inconsolata', 'Consolas', 'Source Code Pro', 'Monaco', 'Menlo', monospace;
+  -webkit-font-smoothing: antialiased;
+
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 20px;
+}
+
+tt, code, kbd, samp  {
+  font-family: 'Inconsolata', 'Consolas', 'Source Code Pro', 'Monaco', 'Menlo', monospace;
+  -webkit-font-smoothing: antialiased;
+
+  font-size: 14px;
+  font-weight: 700;
+  line-height: 20px;
+}

@@ -1,0 +1,101 @@
+<!--
+@license
+Copyright (c) 2015 The Polymer Project Authors. All rights reserved.
+This code may only be used under the BSD style license found at http://polymer.github.io/LICENSE.txt
+The complete set of authors may be found at http://polymer.github.io/AUTHORS.txt
+The complete set of contributors may be found at http://polymer.github.io/CONTRIBUTORS.txt
+Code distributed by Google as part of the polymer project is also
+subject to an additional IP rights grant found at http://polymer.github.io/PATENTS.txt
+-->
+
+<dom-module id="my-markdown">
+  <style>
+    :host {
+      display: block;
+    }
+    ::content .code{
+      /* @apply(--paper-font-common-code); */
+      font-family: 'Inconsolata', 'Consolas', 'Source Code Pro', 'Monaco', 'Menlo', monospace;
+      -webkit-font-smoothing: antialiased;
+
+      font-size: 14px;
+      font-weight: 500;
+      line-height: 20px;
+    }
+    ::content .code{
+      background: var(--paper-grey-100);
+      padding: 24px;
+      margin:0;
+      width: 50%;
+      box-sizing: border-box;
+      resize: none;
+      border: none;
+      outline: none;
+    }
+    marked-element {
+      padding:24px;
+    }
+  </style>
+  <template>
+    <paper-toolbar>
+      <span class="title">Markdown Editor</span>
+      <paper-icon-button icon="editor:format-bold" on-click="boldHandler"></paper-icon-button>
+      <paper-icon-button icon="editor:insert-link" on-click="linkHandler"></paper-icon-button>
+      <paper-icon-button icon="editor:format-quote" on-click="quoteHandler"></paper-icon-button>
+      <paper-icon-button icon="refresh" on-click="refreshHandler"></paper-icon-button>
+    </paper-toolbar>
+      <div class="layout horizontal">
+            <content select=".code">
+            </content>
+        <marked-element id="markedElement" class="flex" markdown="[[code]]"></marked-element>
+      </div>
+  </template>
+</dom-module>
+<script>
+(function() {
+  Polymer({
+    is: 'my-markdown',
+    properties: {
+      code: {
+        type: String,
+        notify: true
+      },
+      content: {
+        type:Object
+      },
+      marked: {
+        type:Object
+      }
+    },
+    ready:function(){
+      this.content = Polymer.dom(this).querySelector('.code');
+      this.marked = this.$.markedElement;
+      this.render();
+
+      var that = this;
+
+      this.content.addEventListener('input',function(){
+        that.render();
+      });
+      this.content.addEventListener('change',function(){
+        that.render();
+      });
+    },
+    render: function(){
+      this.code = this.marked._unindent(this.content.value);
+    },
+    setValue: function(value){
+      if (value !== undefined) {
+        this.content.value = value;
+      } else {
+        value = this.content.value;
+      }
+      this.set('code',value);
+    },
+    refreshHandler: function(){
+      this.setValue('');
+      this.content.focus();
+    }
+  });
+})();
+</script>
