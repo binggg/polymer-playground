@@ -14,26 +14,36 @@ body {
 }
 
 .fab-bottom-right {
-  position: fixed;
-  bottom: 24px;
-  right: 24px;
+    position: fixed;
+    bottom: 24px;
+    right: 24px;
+}
+
+pre {
+    background: #f7f7f7;
+    line-break: normal;
+    padding: 1em 2em;
+    border-radius: 2px;
+    border: 1px solid #ddd;
+    white-space: normal;
+    word-break: break-all;
 }
 
 pre, xmp, plaintext, listing {
-  /* @apply(--paper-font-common-code); */
-  font-family: 'Inconsolata', 'Consolas', 'Source Code Pro', 'Monaco', 'Menlo', monospace;
-  -webkit-font-smoothing: antialiased;
+    /* @apply(--paper-font-common-code); */
+    font-family: 'Inconsolata', 'Consolas', 'Source Code Pro', 'Monaco', 'Menlo', monospace;
+    -webkit-font-smoothing: antialiased;
 
-  font-size: 14px;
-  font-weight: 500;
-  line-height: 20px;
+    font-size: 14px;
+    font-weight: 500;
+    line-height: 20px;
 }
 
 tt, code, kbd, samp  {
-  font-family: 'Inconsolata', 'Consolas', 'Source Code Pro', 'Monaco', 'Menlo', monospace;
-  -webkit-font-smoothing: antialiased;
-
-  font-size: 14px;
-  font-weight: 700;
-  line-height: 20px;
+    font-family: 'Inconsolata', 'Consolas', 'Source Code Pro', 'Monaco', 'Menlo', monospace;
+    -webkit-font-smoothing: antialiased;
+    padding: 0 .5em;
+    font-size: 14px;
+    font-weight: 700;
+    line-height: 20px;
 }
